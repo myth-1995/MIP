@@ -1,0 +1,1043 @@
+%!TEX TS-program = xelatex
+%% The above is a magic command. It tells your tex compiler to compile the tex file with xelatex and not a different compiler such as pdflatex. xelatex is needed for the Arial font
+
+% This file provides an example Beamer presentation using the RWTH theme
+% showcasing some of the more common options, similar to the Powerpoint version
+% 12.11.2014: Revision 1 (Harold Bruintjes, Tim Lange)
+
+% For RWTH, beamer should be loaded with class option t (top)
+\documentclass[t, aspectratio=169]{beamer}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{animate}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{bibentry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+ 
+\usepackage[
+    %backend=biber, 
+    natbib=true,
+    style=numeric,
+    sorting=none
+]{biblatex}
+\addbibresource{References.bib}
+\usepackage[font=small,skip=0pt]{caption}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{lipsum}
+
+% Use fontspec to get Arial font
+% Requires use of XeLaTeX
+\usepackage[no-math]{fontspec}
+\usefonttheme{professionalfonts}
+\setmainfont{Arial}
+\setsansfont{Arial}
+% Also force Arial for math for a more consistent look
+%\usepackage{unicode-math}
+\usepackage{mathspec}
+\setmathfont{Arial}
+
+% Date formatting (footer)
+\usepackage[us]{datetime}
+\newdate{dateOfPresentation}{11}{11}{2100} %change it accordingly
+
+% Format the captions used for figures etc.
+%\usepackage[compatibility=false]{caption}
+%\captionsetup{singlelinecheck=off,justification=raggedleft,labelformat=empty,labelsep=none}
+
+% PGFPlots is used for drawing some of the charts
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\input{libraries/plot_commands.tex}
+
+% Load the actual RWTH theme. Suggested is to load the full theme,
+% as it requires some specific dimensions
+\usepackage{libraries/beamerthemerwth}
+
+% Setup presentation information
+\title{P6 - Bayesian model selection for complex shallow flows }
+\subtitle{\vspace{0cm}} % No subtitle required
+\date{IRTG - 2379 Annual Meeting\enskip|\enskip\displaydate{dateOfPresentation}} 
+\author[Mithlesh]{Mithlesh (Kumar@mbd.rwth-aachen.de)}
+\institute[RWTH]{RWTH Aachen University}
+
+% Set the logo to the file `logo`
+% It will be scaled automatically
+\logo{\includegraphics{libraries/logo3}}
+
+% Uncomment this if you want a TOC at every section start
+%\AtBeginSection{\frame{
+%    \frametitle{Content}
+%    \tableofcontents[currentsection]
+%}}
+
+% Use this to control some aspects of the footer
+%\setbeamertemplate{footertextextra}{Extra text in the footer\enskip|\enskip{}Extra text in the footer}
+%\setbeamertemplate{footertext}{Example of an overridden footer}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ######################################################################################################################
+% # EXAMPLE PRESENTATION ###############################################################################################
+% ######################################################################################################################
+
+% Note: Title pages should be created as plain
+% Title page with a blue bar
+% \setbeamercolor{title page bar}{fg=rwth}
+% \setbeamertemplate{title page}[rwth]{}
+% \begin{frame}[plain]
+% \titlepage
+% \end{frame}
+
+
+% Title page with a 1/3rd size picture
+% \setbeamercolor{title page bar}{fg=white}
+% \setbeamertemplate{title page}[rwth][libraries/title_small]{}
+% \begin{frame}[plain]
+% \titlepage
+% \end{frame}
+
+% Title page with a 2/3rd size picture
+% \setbeamertemplate{title page}[rwth2][libraries/title_large]{}
+% \begin{frame}[plain]
+% \titlepage
+% \end{frame}
+
+%% USE THIS TITLE PAGE
+% Title page with a 1/3rd size picture and table for speaker and supervisor
+\setbeamercolor{title page bar}{fg=white}
+\setbeamertemplate{title page}[rwth4]{libraries/title_small}{Prof. Dr. Julia Kowalski}{Prof. Dr. Clint Dawson}
+\begin{frame}[plain]
+	\titlepage 
+\end{frame}
+
+% Title page with a separator line at the bottom
+% \setbeamertemplate{title page}[rwth3][unten]{}
+% \begin{frame}[plain]
+% \titlepage
+% \end{frame}
+
+% Title page with a separator line between title and subtitle
+% \setbeamertemplate{title page}[rwth3]{}
+% \begin{frame}[plain]
+% \titlepage
+% \end{frame}
+
+% Start a new section (text is displayed on top of a frame)
+\section{Bayesian Approach}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{“Update your beliefs based on evidence”}
+ \begin{columns}[onlytextwidth]\
+%   % Text on the left
+
+\begin{column}{0.6\textwidth}
+  
+“Steve is very shy and withdrawn, invariably helpful but with very little interest in people or in the world of reality. A meek and tidy soul, he has a need for order and structure, and a passion for detail \cite{KahnemanDaniel}.”
+\vspace{2cm}
+
+\textbf{Question ?}
+
+Is Steve a Librarian or a Farmer?
+
+\end{column}
+
+
+
+   % Picture on the right
+   \begin{column}{.4\textwidth}
+     \begin{figure}
+ %        \hfill
+ %   \raisebox{-7cm}[0pt][10cm]{\includegraphics[height=10cm]{latex template/input/Steve.png} }
+ \includegraphics[height=10cm]{latex template/input/Steve.png}
+     \caption{Steve \cite{1BeardMan}}
+     \end{figure}
+        \end{column}
+ \end{columns}
+ \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+% % Frame with large picture and caption
+ \begin{frame}{“Update your beliefs based on evidence”}
+ \begin{figure}
+ \includegraphics[width=.6\textwidth]{latex template/input/farmer_Librarian_ratio.jpg}
+ \caption{Sample representation of Farmers and Librarians \cite{2FLratio}}
+ \end{figure}
+ \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{“Update your beliefs based on evidence”}
+ \begin{columns}[onlytextwidth]\
+
+
+\begin{column}{0.6\textwidth}
+ \begin{figure}
+
+        \includegraphics[width=0.7\textwidth]{latex template/input/FL_BT.png}
+        \caption{Sample representation of Farmers and Librarians \cite{2FLratio}}
+    \end{figure}
+\end{column}
+
+   % Picture on the right
+   \begin{column}{.4\textwidth}
+     \begin{figure}
+    \centering
+        \includegraphics[width=0.8\textwidth]{latex template/input/BT.png}
+        \caption{Bayes Theorem}
+    \end{figure}
+   \end{column}
+ \end{columns}
+ \end{frame}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ % Frame with plain text
+ \begin{frame}{Classical vs Modern perspective}
+ \vspace{1cm}
+ \textbf{Classical:}\\
+\vspace{0.5cm}
+Let us consider we have k candidate models, \(\mathcal{M}_1, ... , \mathcal{M}_k\), in the classical perspective model selection is to select the model which gives the best description to the data we have.\\
+ \vspace{1.5cm}
+\textbf{Modern:}\\
+\vspace{0.5cm}
+In the modern perspective model selection is to select a model which has the best predictive ability. That means selecting the model which gives best predictions for unseen future observations originating from the same distribution.
+
+ \end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % Frame with plain text
+ \begin{frame}{Classification}
+ \vspace{1cm}
+ The Bayesian methods for model selection can be broadly classified as shown below.
+  \vspace{1cm}
+ \begin{figure}
+ \includegraphics[width=.7\textwidth]{latex template/input/Classification.png}
+ \caption{Classification of model selection approaches \cite{Vehtari}}
+ \end{figure}
+
+ \end{frame} 
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ % Frame with plain text
+ \begin{frame}{Model predictive ability}
+ \vspace{0.7cm}
+ \textbf{Logarithmic score:}\\
+\vspace{0.5cm}
+For a candidate model \(\mathcal{M}\)   given the data D, logarithmic score is a widely used measure of the predictive performance of the model. It is defined as shown below \cite{Vehtari},\\
+
+\[u(\mathcal{M},y_{pred}) = log\hspace{0.2cm}  P(y_{pred}|D,\mathcal{M} )\]\\
+ \vspace{0.5cm}
+As the future data, \(y_{pred}\) are unknown we marginalize over all the possible future data by calculating the expected value called Expected log predictive density ELPD \cite{ELPD}.
+\[\bar{u}(\mathcal{M}) = E[log\hspace{0.2cm}  P(y_{pred}|D,\mathcal{M} )] = \int P_t(y_{pred}) \hspace{0.2cm} log\hspace{0.2cm}  P(y_{pred}|D,\mathcal{M} ) \hspace{0.2cm} dy_{pred}\]\\
+
+ \vspace{0.5cm}
+ 
+ Here \(P_t(y_{pred})\) the true data generating distributions.
+
+ \end{frame} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ % Frame with plain text
+ \begin{frame}{General utility estimation (\(\mathcal{M}\)-open)
+}
+ \vspace{0.6cm}
+ \textbf{Cross Validation:}\\
+\vspace{0.5cm}
+In this method we use the observed data distribution as a proxy for the true data generating distributions,\hspace{0.2cm} \(P_t(y_{pred})\)    \cite{Vehtari}.
+\[CV = \frac{1}{n}  \sum_{i=1}^{n}log\hspace{0.2cm}  P(D_i|D,\mathcal{M} ) \]\\
+ \vspace{0.3cm}
+A better estimate is achieved by dividing the data into K subsets and using each of these subsets for validation while training the model with the remaining K - 1 subsets, known as K-fold cross validation    \cite{Vehtari}.
+\[K-fold-CV = \frac{1}{n}  \sum_{i=1}^{n}log\hspace{0.2cm}  P(D_i|D_{ \backslash I_{s(i)} },\mathcal{M} )\]\\
+Here \(D_{ \backslash I_{s(i)} }\) represent the training data from which the \(I_{s(i)}\), validation set containing the \(i^{th}\) data point is removed . 
+ \end{frame} 
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ 
+ % Frame with plain text
+ \begin{frame}{Reference Model approach (\(\mathcal{M}\)-complete)
+}
+ \vspace{1cm}
+ \textbf{Reference predictive method:}\\
+\vspace{0.8cm}
+In this method we construct a reference model \(\mathcal{M}_*\), which we believe to give us the best description of our future observations and use this as a proxy for true data generating distribution \(P_t(y_{pred})\), calculation of the logarithmic score \cite{Vehtari}. 
+\\
+
+\[\bar{u}_{ref}(\mathcal{M}) =  \int P(y_{pred}|D,\mathcal{M}_* ) \hspace{0.2cm} log\hspace{0.2cm}  P(y_{pred}|D,\mathcal{M} ) \hspace{0.2cm} dy_{pred}.\]\\
+
+
+ \end{frame} 
+ 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 9
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ % Frame with plain text
+ \begin{frame}{Information Criteria}
+ \vspace{1cm}
+ \textbf{Akaike Information Criteria:}\\
+\[AIC = log \hspace{0.1cm}\mathcal{L}(\hat{\mathbf{\theta}}_j) - d_j\]\\
+\vspace{0.5cm}
+Here \(\mathcal{L}(\hat{\theta}_j)\) is the likelihood function evaluated for the maximum likelihood estimates of the parameter. \(d_j\) is the number of parameters in our model \(\mathcal{M}_j\) \cite{Wasserman}.
+\\
+ \vspace{1cm}
+ \textbf{Bayesian Information Criteria:}\\
+\[BIC = log \hspace{0.1cm}\mathcal{L}(\hat{\mathbf{\theta}}_j) - \frac{d_j}{2}\hspace{0.3cm}log \hspace{0.2cm} n\]\\
+\vspace{0.5cm}
+Here n represents the sample size of our observations \cite{Wasserman}.
+
+ \end{frame} 
+ 
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 10
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ % Frame with plain text
+ \begin{frame}{Information Criteria}
+ \vspace{0.7cm}
+ \textbf{Deviance Information Criteria:}
+\[DIC = -2\hspace{0.1cm}log\hspace{0.1cm} \mathcal{L}(\hat{\mathbf{\theta}}_{BAYES}) + 2\hspace{0.1cm}p_{DIC}\]\\
+\vspace{0.5cm}
+Here \(\mathcal{L}(\hat{\mathbf{\theta}}_{BAYES})\) maximum likelihood evaluated for the posterior mean given as \(\hat{\mathbf{\theta}}_{BAYES} = E[\mathbf{\theta}|D]\). \\\(p_{DIC}\) is the effective number of parameters \cite{Gelman}.\\
+\vspace{0.3cm}
+ \textbf{Widely applicable Information Criteria:}\\
+\[WAIC = -2\hspace{0.1cm}lppd + 2\hspace{0.1cm}p_{WAIC}\]\\
+\vspace{0.5cm}
+Here lppd is the log pointwise predictive density given as \cite{Gelman}, 
+\[lppd = \sum_{i = 1}^n log \int P(D_i|D) P(\mathbf{\theta}|D) d\mathbf{\theta}\]\\
+
+ \end{frame} 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 11
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ % Frame with plain text
+ \begin{frame}{Model Space approach}
+ \vspace{0.7cm}
+ \begin{itemize}
+  \item Bayesian model selection is a conceptually simple and unified approach theoretically. The difficulties lie in its practical implementation.
+  \item The fundamental building blocks of the Bayesian approach to model selection are the model posteriors \cite{Wasserman}.
+\end{itemize}
+ \vspace{0.6cm}
+ \begin{figure}
+ \includegraphics[width=.7\textwidth]{latex template/input/Model_Posterior.png}
+ \caption{Model Posterior}
+ \end{figure}
+ \end{frame} 
+ 
+
+ 
+ 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 12
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ % Frame with plain text
+ \begin{frame}{Bayes Factor}
+ \vspace{0.2cm}
+ \begin{itemize}
+  \item The marginal likelihood is the probability that we will generate a dataset D with a model M if we randomly sample from a prior over its parameters \cite{Wasserman}.
+\\
+  \[B_{ij} = \frac{P(\mathcal{M}_i)|D}{P(\mathcal{M}_j)|D} = \frac{P(D|\mathcal{M}_i)}{P(D|\mathcal{M}_j)}\]\\
+  \vspace{0.3cm}
+  \item Jeffery‘s scale of evidence is used to interpret the Bayes Factor \cite{Wasserman}.
+   \begin{figure}
+ \includegraphics[width=.4\textwidth]{latex template/input/Jefferey's Scale.png}
+ \caption{Jeffreys' Scale of Evidence for Bayes Factors \cite{Wasserman}}
+ \end{figure}
+\end{itemize}
+ \end{frame}  
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 13
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Frame with plain text
+ \begin{frame}{Marginal Likelihood}
+ \vspace{0.7cm}
+ \begin{itemize}
+ \item If we randomly sample from a prior over the parameters of a model M, the marginal likelihood is the probability of generating the dataset D conditioned on the model M.
+  \item Once we have the model posterior we use Bayes Factor to compare and select amongst the candidate models \cite{Lofti}.\\
+  \[P(D|\mathcal{M}_r) = \int P(D|\mathbf{\theta},\mathcal{M}_r) P(\mathbf{\theta}|\mathcal{M}_r)\hspace{0.2cm} d\mathbf{\theta} \]\\
+  \vspace{0.3cm}
+  \begin{itemize}
+   
+   
+      \item \(P(D|\mathbf{\theta}, \mathcal{M}_r)\) is the likelihood with respect to the parameter \(\mathbf{\theta}\).
+      \item \(P(\mathbf{\theta}|\mathcal{M}_r)\) is the prior for the parameters for model \(\mathcal{M}_r\).
+
+  \end{itemize}
+  \vspace{1cm}
+  \item The practical problems in the computation of the Marginal likelihood are \cite{Wasserman}:
+  \vspace{0.7cm}
+\begin{itemize}
+    \item Computation of high dimensional integrals.
+    \item Selection of the priors . 
+\end{itemize}
+
+\end{itemize}
+ \end{frame}  
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 14
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Case for Marginal Likelihood}
+  % Frame with plain text
+ \begin{frame}{Occam's Razor}
+ \vspace{0.3cm}
+ How many boxes are behind the tree?
+  \vspace{0.1cm}
+ \begin{figure}
+ \includegraphics[width=.33\textwidth]{latex template/input/Occam1.png}
+ \caption{A picture of boxes behind a tree \cite{Mackay}}
+ 
+ \end{figure}
+
+ \end{frame} 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 15
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{Occam's Razor}
+ \begin{columns}[b]\
+
+\begin{column}{0.6\textwidth}
+ \begin{figure}
+ \includegraphics[width=.6\textwidth]{latex template/input/Occam1.png}
+  \caption{A picture of boxes behind a tree \cite{Mackay}}
+    \end{figure}
+\end{column}
+
+   % Picture on the right
+   \begin{column}{.4\textwidth}
+     \begin{figure}
+    \centering
+        \includegraphics[width=0.7\textwidth]{latex template/input/Occam2.png}
+         \caption{Number of boxes ? \cite{Mackay}}
+    \end{figure}
+   \end{column}
+ \end{columns}
+ \end{frame} 
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 16
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+  % Frame with plain text
+ \begin{frame}{Occam's Razor}
+ \vspace{0.5cm}
+ \begin{itemize}
+     \item A simple model generates a limited range of datasets. However Marginal Likelihood is a probability density and probability densities are normalized. Thus, simpler models give higher probability to the data they generate.
+\item Therefore, the simplest model covering the dataset wins, thus quantitatively encoding the Occam’s razor.
+
+ \end{itemize}
+  \vspace{0.1cm}
+ \begin{figure}
+ \includegraphics[width=.5\textwidth]{latex template/input/Simple_vs_complex.png}
+ \caption{Marginal Likelihood: Simple vs Complex model. \cite{DavidMackay}}
+ 
+ \end{figure}
+ \end{frame}  
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 17
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Frame with plain text
+ \begin{frame}{Hyperparameter Learning}
+ \vspace{0.7cm}
+ \textbf{Gaussian Processes:}
+ \vspace{0.7cm}
+ \begin{itemize}
+  \item They offer a nonparametric approach; here we have a distribution over the possible functions \(f(x)\) that are consistent with the observed data. 
+  
+\item Their mathematical description is given by a Multivariate Gaussian distribution, which are defined by a mean vector \(\mu\) and a covariance matrix \(\Sigma\).
+
+\item For a finite subset \(X = \{ x_1,… , x_n \}\), we have \cite{Lofti}:
+
+\[f(X) \sim  \mathcal{N}(\mu(X), \Sigma(X,X))\]
+
+\end{itemize}
+
+ \end{frame}   
+ 
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 18
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Hyperparameter Learning}
+\vspace{0.5cm}
+Using Gaussian process to find an approximation for the function.
+\[\mathbf{f(x) = sin(7\pi x) + sin(4 \pi x)}\]
+\vspace{0.3cm}
+\centering
+% \animategraphics[loop,width=4cm]{10}{latex template/input/DP-}{0}{6}
+\animategraphics[loop,autoplay, controls, width=15cm]{5}{latex template/input/DP-}{0}{6}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 19
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Frame with plain text
+ \begin{frame}{Hyperparameter Learning}
+ \vspace{0.7cm}
+ \textbf{Gaussian Processes:}
+ \vspace{0.7cm}
+
+
+\[f(X) \sim  \mathcal{N}(\mu(X), \Sigma(X,X))\]\\
+ \vspace{0.7cm}
+\textbf{RBF Kernel (a common choice for kernels):}
+
+\[\Sigma(X,X) = exp\left( \frac{-1}{2l^2}||{x-x}||^2 \right)\]\\
+ \vspace{0.7cm}
+Here l is the length scale, which is an example of hyperparameter \cite{Lofti}.
+
+ \end{frame}   
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 20
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+\begin{frame}{Hyperparameter Learning}
+\vspace{0.5cm}
+Maximizing the Marginal likelihood helps find the appropriate length scale which gives good fit and is generally way better than standard cross validation.
+
+\vspace{0.3cm}
+\centering
+% \animategraphics[loop,width=4cm]{10}{latex template/input/DP-}{0}{6}
+\animategraphics[loop,autoplay, controls, width=15cm]{5}{latex template/input/HP-}{0}{4}
+\end{frame}
+ 
+ 
+\section{Pitfalls of Marginal Likelihood}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 21
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+% % Frame with text and picture
+\begin{frame}{Prior Sensitivity}
+ \begin{columns}[onlytextwidth]\
+%   % Text on the left
+
+\begin{column}{0.5\textwidth}
+\textbf{Marginal Likelihood:}
+models.\\
+\vspace{1.5cm}
+  \[P(D|\mathcal{M}_r) = \int P(D|\theta,\mathcal{M}_r) P(\theta|\mathcal{M}_r)\hspace{0.2cm} d\theta \]\\
+  \vspace{2.5cm}
+  \begin{itemize}
+      \item Since the marginalization is over the priors, the marginal likelihood is sensitive to priors.
+       \vspace{0.6cm}
+      \item Marginal likelihood penalizes diffuse priors.
+
+  \end{itemize}
+
+
+\end{column}
+
+
+
+   % Picture on the right
+   \begin{column}{.5\textwidth}
+   \begin{figure}
+       \centering
+       \includegraphics[height=10cm]{latex template/input/Pitfall2.png}
+       \caption{Prior Sensitivity: Posterior Contraction \cite{Lofti}}
+      
+   \end{figure}
+     %\hfill
+     %\raisebox{-9cm}[0pt][10cm]{\includegraphics[height=10cm]{latex template/input/Pitfall2.png} }
+   \end{column}
+ \end{columns}
+ \end{frame} 
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 22
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{Prior Sensitivity}
+ \begin{columns}[onlytextwidth]\
+%   % Text on the left
+
+\begin{column}{0.2\textwidth}\\
+\vspace{7cm}
+Marginal Likelihood will pick Prior A as it is less diffuse. 
+%\hfill
+     %\raisebox{-9cm}[0pt][10cm]{Marginal Likelihood will pick Prior A as it is less diffuse. }
+
+\end{column}
+
+
+
+   % Picture on the right
+   \begin{column}{.5\textwidth}
+   \begin{figure}
+       \centering
+       \includegraphics[height=10cm]{latex template/input/Pitfall2.png}
+       \caption{Prior Sensitivity: Posterior Contraction \cite{Lofti}}
+      
+   \end{figure}
+     %\hfill
+    % \raisebox{-9cm}[0pt][10cm]{\includegraphics[height=10cm]{latex template/input/Pitfall2.png} }
+   \end{column}
+   
+   \begin{column}{0.2\textwidth}
+However due to posterior contraction, the generalization performance of the posterior of C is higher.
+%\hfill
+     %\raisebox{-9cm}[0pt][10cm]{However due to posterior contraction, the generalization performance of the posterior of C is higher.}
+
+\end{column}
+ \end{columns}
+ \end{frame} 
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 23
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{Two different questions}
+ \begin{columns}[onlytextwidth]\
+%   % Text on the left
+
+\begin{column}{0.45\textwidth}\\
+\vspace{0.8cm}
+\textbf{Marginal Likelihood:}\\
+\vspace{0.6cm}
+“What is the probability that a prior model generated the training data ?”
+
+\vspace{1.2cm}
+\textbf{Hypothesis Testing:}\\
+\vspace{0.6cm}
+Evaluating the priors.
+
+
+
+\end{column}
+
+\begin{column}{0.05\textwidth}\\
+\Large{}
+    \rule[-100pt]{2pt}{300pt}
+\end{column}
+
+
+
+
+  \begin{column}{0.5\textwidth}\\
+\vspace{0.8cm}
+\textbf{Generalization:}\\
+\vspace{0.6cm}
+“How likely is the posterior, conditioned on the training data, to have generated with held points drawn from the same distribution ?”
+
+
+\vspace{1.2cm}
+\textbf{Model Selection:}\\
+\vspace{0.6cm}
+Evaluating the posteriors.
+
+
+
+\end{column}
+   
+ \end{columns}
+ \end{frame}  
+ 
+
+\section{Alternative for Marginal Likelihood}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 24
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Frame with plain text
+ \begin{frame}{Decomposition of Marginal Likelihood}
+ \vspace{0.7cm}
+  Assuming independent events we can decompose our log marginal likelihood as follows \cite{Lofti}:\\
+
+ \vspace{1.5cm}
+
+
+\[log P(D|\mathcal{M}) = \Sigma_{i = 1}^n log P(D_i|D_{<i, \mathcal{M}})\]\\
+
+ \vspace{1.5cm}
+
+The predictive log likelihood of the data point \(D_i\) is conditioned on all the samples before i and it is depicted above as \(log \hspace{0.2cm}P(D_i|D_{<i, \mathcal{M}})\). 
+
+ \end{frame}  
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 25
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Frame with text and picture
+\begin{frame}{Decomposition of Marginal Likelihood}
+ Consider the density estimation problem given as : \\
+\[x \sim \mathcal{N}(\mu, 1); \mu \sim \mathcal{N}(\mu', \sigma^2)\]
+
+ \begin{columns}[c]\
+
+\begin{column}{0.1\textwidth}
+
+\end{column}
+\begin{column}{0.35\textwidth}
+
+ \begin{figure}
+
+ \includegraphics[width=.7\textwidth]{latex template/input/ML_bias.png}
+ \caption{Prior sensitivity of Marginal Likelihood \cite{Lofti}}
+    \end{figure}
+\end{column}
+
+   % Picture on the right
+   \begin{column}{.55\textwidth}
+     \begin{figure}
+         \centering
+        \includegraphics[width=0.7\textwidth]{latex template/input/Penalty2.png}
+        \caption{Penalty incurred due to initial terms \cite{Lofti}.}
+    \end{figure}
+   \end{column}
+ \end{columns}
+ \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 26
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Frame with plain text
+ \begin{frame}{Conditional Marginal Likelihood}
+ \vspace{0.7cm}
+  \begin{itemize}
+      \item As the initial terms incur penalty, one alternative is to formulate a marginal likelihood by omitting the initial m terms. 
+       \vspace{0.5cm}
+      \item Such a likelihood is conditioned on the m terms and thus it is referred as the conditional log marginal likelihood (CLML) \cite{Lofti}.
+
+
+  \end{itemize}
+  
+  \vspace{1.5cm}
+  \[log \hspace{0.2cm}P(D_{\leq m})|D_{< m} = \Sigma_{i = m}^n log\hspace{0.2cm} P(D_i|D_{<i}, M)\]
+
+ \end{frame}  
+ 
+
+
+\section{Implementation} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 27
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{Two different questions}
+\begin{itemize}
+    \item Observing the data points (x,y) and selecting the model which is more compatible with the data. Bayesian approach of model selection is used to select between the following models.
+\end{itemize}
+
+\begin{columns}[onlytextwidth]\
+%   % Text on the left
+
+\begin{column}{0.45\textwidth}\\
+\vspace{0.8cm}
+\textbf{Linear Model:}\\
+\vspace{0.6cm}
+\[y_{M1}(x;\mathbf{\theta}) = \theta_0 + \theta_1 \hspace{0.1cm} x \]
+\vspace{0.6cm}
+\[y_l \sim \mathcal{N}(y_{M1}, \sigma^2_y)\]
+
+\end{column}
+
+\begin{column}{0.05\textwidth}\\
+\Large{}
+    \rule[-215pt]{1pt}{200pt}
+\end{column}
+
+
+
+
+  \begin{column}{0.5\textwidth}\\
+\vspace{0.8cm}
+\textbf{Quadratic Model:}\\
+\vspace{0.6cm}
+
+\[y_{M2}(x;\mathbf{\theta}) = \theta_0 + \theta_1 \hspace{0.1cm} x  + \theta_2 \hspace{0.1cm} x^2 \]
+\vspace{0.6cm}
+\[y_q \sim \mathcal{N}(y_{M2}, \sigma^2_y)\]
+
+\end{column}
+   
+ \end{columns}
+ \end{frame} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 28
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{Plotting the Data}
+ 
+\begin{itemize}
+    \item On the left hand side observed data points with noise in the observations are given.
+    \item On the right hand side the best fit linear and quadratic models are shown.
+
+\end{itemize} 
+
+ \begin{columns}[b]\
+
+
+\begin{column}{0.5\textwidth}
+\vspace{1.2cm}
+
+ \begin{figure}
+
+ \includegraphics[width=.7\textwidth]{latex template/input/Data.png}
+ \caption{Input data }
+    \end{figure}
+\end{column}
+
+   % Picture on the right
+   \begin{column}{.5\textwidth}
+     \begin{figure}
+    \centering
+        \includegraphics[width=0.7\textwidth]{latex template/input/Data1.png}
+         \caption{Best fit models: Linear and Quadratic}
+    \end{figure}
+   \end{column}
+ \end{columns}
+ \end{frame}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 29
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{Pitfalls for Maximum Likelihood}
+ 
+\begin{itemize}
+    \item Here we can see that the Maximum log likelihood increases as the degree of our model increases. However, we can also observe this increase in likelihood is at the cost of over fitting.
+\end{itemize}
+\vspace{1cm}
+ \begin{figure}
+ \includegraphics[width=.7\textwidth]{latex template/input/Max_Likeli.png}
+ \caption{Plot of maximum likelihood vs degree of polynomial: Overfitting}
+ 
+ \end{figure}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 30
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{Algorithm}
+
+ \begin{figure}
+ \centering
+ \includegraphics[width=.52\textwidth]{latex template/input/Implementation.png}
+ 
+ \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 31
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{MCMC Samples of posterior: Linear Model}
+\begin{itemize}
+    \item Since our posterior given below is often intractable, we use MCMC to draw samples from the posterior. First, we consider the linear model \(M_1\) .
+\end{itemize}
+\vspace{0.1cm}
+ \begin{figure}
+ \centering
+ \includegraphics[width=.3\textwidth]{latex template/input/Linear_samples.png}
+ \caption{MCMC posterior samples of parameters: Linear model}
+ 
+ \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 32
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{MCMC Samples of posterior: Quadratic Model}
+
+ \begin{figure}
+ \centering
+ \includegraphics[width=.33\textwidth]{latex template/input/Quadratic_Samples.png}
+ \caption{MCMC posterior samples of parameters: Quadratic model}
+ \end{figure}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SLIDE 33
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Frame with text and picture
+\begin{frame}{Baye's Factor}
+\begin{itemize}
+    \item Once we have the posterior samples, we use numerical integration tools to compute the Marginal Likelihood, using which Bayes Factor is computed as shown below.
+\[B_{21} = \frac{P(M_2|D)}{P(M_1|D)} = \frac{P(D|M_2)}{P(D|M_1)}\]
+\item When we consider 20 data points, we get a Bayes factor of approximately 2.36. From the Jefferey scale we can see that this indicates weak evidence for the quadratic model.
+\item When we increase the number of points to 50, our Bayes factor further drops down to 0.7, thus further weakening the evidence for quadratic model.
+\item This makes sense as our observation data was taken from linear function given below.
+\[y = x - 0.2 + Noise\]
+
+
+\end{itemize}
+ 
+\end{frame}
+
+% % New section (with charts)
+% % Note: Using newline in a section is not recommended, this is
+% % just an example
+% \section{Section title\newline
+% Example of a two-line title}
+
+% % Frame with horizontal bar chart
+% \begin{frame}{Add title}
+% \begin{center}
+% \begin{tikzpicture}
+%   \begin{axis}[hor_barchart,symbolic y coords={Kategorie 1,Kategorie 2,Kategorie 3, Kategorie 4},%
+%                width=0.7\textwidth,height=10cm]
+%     \addplot [draw opacity=0,fill=rwth-50] coordinates {(4.5,Kategorie 4) (3.5,Kategorie 3) (2.5,Kategorie 2) (4.3,Kategorie 1)};
+%     \addplot [draw opacity=0,fill=rwth] coordinates {(2.8,Kategorie 4) (1.8,Kategorie 3) (4.4,Kategorie 2) (2.4,Kategorie 1)};
+%     \legend{Datenreihe 1,Datenreihe 2}
+%   \end{axis}
+% \end{tikzpicture}
+% \end{center}
+% \end{frame}
+
+% % Frame with vertical bar chart
+% \begin{frame}{Add title}
+% \begin{center}
+% \begin{tikzpicture}
+%   \begin{axis}[ver_barchart,symbolic x coords={Kategorie 1,Kategorie 2,Kategorie 3, Kategorie 4},%
+%                width=0.7\textwidth,height=10cm]
+%     \addplot [draw opacity=0,fill=rwth] coordinates {(Kategorie 4,4.5) (Kategorie 3,3.5) (Kategorie 2,2.5) (Kategorie 1,4.3)};
+%     \addplot [draw opacity=0,fill=rwth-75] coordinates {(Kategorie 4,2.8) (Kategorie 3,1.8) (Kategorie 2,4.4) (Kategorie 1,2.4)};
+%     \addplot [draw opacity=0,fill=rwth-50] coordinates {(Kategorie 4,3) (Kategorie 3,0.5) (Kategorie 2,5.4) (Kategorie 1,3.4)};
+%     \addplot [draw opacity=0,fill=rwth-25] coordinates {(Kategorie 4,3.5) (Kategorie 3,1.5) (Kategorie 2,2.2) (Kategorie 1,4.2)};
+%   \legend{Datenreihe 1,Datenreihe 2,Datenreihe 3,Datenreihe 4}
+%   \end{axis}
+% \end{tikzpicture}
+% \end{center}
+% \end{frame}
+
+% % Frame with pie chart
+% \begin{frame}{Add title}
+% \begin{center}
+% \hspace{2cm}
+% \begin{tikzpicture}
+% [
+%   pie chart,
+%   slice type={one}{rwth-25},
+%   slice type={two}{rwth-50},
+%   slice type={three}{rwth-75},
+%   slice type={four}{rwth},
+%   pie values/.style={font={\Large}},
+%   scale=5
+% ]
+%   \pie{}{29/one,17/two,23.6/three,30.4/four}
+%   \legend[xshift=1.5cm,yshift=0.8cm]{{Kategorie 1}/one, {Kategorie 2}/two, {Kategorie 3}/three, {Kategorie 4}/four}
+% \end{tikzpicture}
+% \end{center}
+% \end{frame}
+
+% % Final frame, subtext is optional
+% % Note: should be plain
+% \setbeamertemplate{final page}[rwth][Any questions?]{Thank you for your attention}
+% \begin{frame}[plain]
+% \usebeamertemplate{final page}
+% \end{frame}
+
+
+% % Title page with a 2/3rd size picture
+% \setbeamertemplate{title page}[rwth][libraries/title_small]{}
+% \begin{frame}[plain]
+%   \titlepage
+% \end{frame}
+
+% \section{Section Title} {
+%   \begin{frame}{Frame Title}
+%     frame content
+%   \end{frame}
+% }
+\section{References}
+\begin{frame}
+
+ \printbibliography
+    
+\end{frame}
+\section{Acknowledgment} {
+  \begin{frame}
+    \begin{center}
+      \vfill
+      \Huge
+      Financial support from the\\\textbf{Deutsche Forschungsgemeinschaft (DFG)}\\through grant IRTG-2379 is\\gratefully acknowledged\\[2ex]
+      \colorbox{white}{\includegraphics[height=4ex]{libraries/logo2}}
+      \vfill
+    \end{center}
+  \end{frame}
+}
+
+\end{document}
